@@ -1,0 +1,12 @@
+config.php
+.env
+testDatabase.php
+tuelo-main/uploads/*
+!tuelo-main/uploads/.gitkeep
+.DS_Store
+**/.DS_Store
+.vscode/
+.idea/
+error_log.txt
+*.log
+nbproject/
