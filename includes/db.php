@@ -41,3 +41,15 @@ function singleQueryDB(string $sql,array $params = []): array {
     $statement->execute($params);
     return $statement->fetch();
 }
+
+function insertIntoDB(string $sql,array $params = []): int {
+    $pdo = getPDO();
+    $pdo->prepare($sql)->execute($params);
+    return (int) $pdo->lastInsertId();
+}
+
+function updateDB(string $sql, array $params = []): int {
+    $statement = getPDO()->prepare($sql);
+    $statement->execute($params);
+    return $statement->rowCount();
+}
