@@ -36,3 +36,8 @@ function queryDB(string $sql, array $params = []): array {
     return $statement->fetchAll();
 }
 
+function singleQueryDB(string $sql,array $params = []): array {
+    $statement = getPDO()->prepare($sql);
+    $statement->execute($params);
+    return $statement->fetch();
+}
