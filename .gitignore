@@ -3,6 +3,7 @@ config.php
 testDatabase.php
 testAuth.php
 tuelo-main/uploads/*
+tuelo-main/assets/img/*
 !tuelo-main/uploads/.gitkeep
 .DS_Store
 **/.DS_Store
