@@ -1,6 +1,6 @@
 'use strict';
 
-// ---- Sidebar accordion (category filter) ----
+//  Sidebar accordion (category filter) 
 const accordionBtns = document.querySelectorAll('[data-accordion-btn]');
 const accordions = document.querySelectorAll('[data-accordion]');
 
@@ -22,7 +22,7 @@ for (let i = 0; i < accordionBtns.length; i++) {
   });
 }
 
-// ---- Banner auto-scroll ----
+//  Banner auto-scroll 
 const sliderContainer = document.querySelector('.slider-container');
 if (sliderContainer) {
   let currentSlide = 0;

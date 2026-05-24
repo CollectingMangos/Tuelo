@@ -2,8 +2,8 @@ config.php
 .env
 testDatabase.php
 testAuth.php
-tuelo-main/uploads/*
-tuelo-main/assets/img/*
+tuelo-main/uploads/listings/user-*
+tuelo-main/assets/img/avatars/*
 !tuelo-main/uploads/.gitkeep
 .DS_Store
 **/.DS_Store
