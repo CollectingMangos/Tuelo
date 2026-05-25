@@ -12,3 +12,5 @@ tuelo-main/assets/img/avatars/*
 error_log.txt
 *.log
 nbproject/
+tuelo-main/uploads/avatars/*
+!tuelo-main/uploads/avatars/.gitkeep
