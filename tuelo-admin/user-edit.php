@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($currentUser['role_name'] !== 'superuser') {
             $superuserRole = singleQueryDB('SELECT id FROM roles WHERE name = "superuser"');
             if ($roleId === (int)$superuserRole['id']) {
-                $error = 'Only superusers can assign the superuser role.';
+                $error = 'Only superusers can assign the superuser role!';
             }
         }
 
