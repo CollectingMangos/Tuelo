@@ -52,6 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 [$name, $surname, $phone ?: null, $roleId, $status, $id]
             );
 
+            logAction('user_updated', 'user', $id);
+
             // Bust session cache if editing own account
             if ($id === $currentUser['id']) {
                 unset($_SESSION['user_cache']);

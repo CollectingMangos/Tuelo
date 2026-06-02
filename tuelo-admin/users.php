@@ -21,10 +21,12 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
     } else {
         if ($action === 'deactivate') {
             updateDB('UPDATE users SET is_verified = -1 WHERE id = ?', [$id]);
+            logAction('user_deactivated', 'user', $id);
             $message = 'User deactivated.';
             $msgType = 'danger';
         } elseif ($action === 'activate') {
             updateDB('UPDATE users SET is_verified = 1 WHERE id = ?', [$id]);
+            logAction('user_activated', 'user', $id);
             $message = 'User activated.';
             $msgType = 'success';
         }

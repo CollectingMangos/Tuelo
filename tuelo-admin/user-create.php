@@ -46,6 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 );
 
                 if ($newId) {
+                    logAction('user_created', 'user', $newId);
                     header('Location: /tuelo-admin/users.php?msg=' . urlencode('User created successfully.') . '&type=success');
                     exit;
                 } else {

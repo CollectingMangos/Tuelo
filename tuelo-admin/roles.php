@@ -20,6 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['assign_role'])) {
             $msgType = 'danger';
         } else {
             updateDB('UPDATE users SET role_id = ?, updated_at = NOW() WHERE id = ?', [$roleId, $userId]);
+            logAction('role_assigned', 'user', $userId);
             $message = 'Role updated successfully.';
             $msgType = 'success';
         }

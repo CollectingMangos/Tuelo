@@ -16,14 +16,17 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
 
     if ($action === 'approve') {
         updateDB('UPDATE listings SET status = "active", updated_at = NOW() WHERE id = ?', [$id]);
+        logAction('listing_approved', 'listing', $id);
         $message = 'Listing approved and set to active.';
         $msgType = 'success';
     } elseif ($action === 'remove') {
         updateDB('UPDATE listings SET status = "removed", updated_at = NOW() WHERE id = ?', [$id]);
+        logAction('listing_removed', 'listing', $id);
         $message = 'Listing has been removed.';
         $msgType = 'danger';
     } elseif ($action === 'restore') {
         updateDB('UPDATE listings SET status = "active", updated_at = NOW() WHERE id = ?', [$id]);
+        logAction('listing_restored', 'listing', $id);
         $message = 'Listing restored to active.';
         $msgType = 'success';
     }
