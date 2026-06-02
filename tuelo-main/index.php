@@ -15,11 +15,9 @@ $listings = queryDB(
      LIMIT 8'
 );
 
-// Fetch all categories
 $categories = queryDB('SELECT * FROM categories ORDER BY name ASC');
 ?>
 
-<!-- HERO SECTION -->
 <div class="banner">
   <div class="container">
     <div class="slider-container has-scrollbar">
@@ -58,7 +56,6 @@ $categories = queryDB('SELECT * FROM categories ORDER BY name ASC');
   </div>
 </div>
 
-<!-- CATEGORY STRIP SECTION -->
 <div class="category">
   <div class="container">
     <div class="category-item-container has-scrollbar">
@@ -79,11 +76,9 @@ $categories = queryDB('SELECT * FROM categories ORDER BY name ASC');
   </div>
 </div>
 
-<!-- PRODUCT GRID SECTION -->
 <div class="product-container">
   <div class="container">
 
-    <!-- Sidebar -->
     <div class="sidebar">
       <div class="sidebar-category">
         <div class="sidebar-top">
@@ -110,7 +105,6 @@ $categories = queryDB('SELECT * FROM categories ORDER BY name ASC');
       </div>
     </div>
 
-    <!-- Product box -->
     <div class="product-box">
       <div class="product-main">
         <h2 class="title">Latest Listings</h2>
@@ -171,7 +165,6 @@ $categories = queryDB('SELECT * FROM categories ORDER BY name ASC');
   </div>
 </div>
 
-<!-- HOW IT WORKS SECTION -->
 <div style="padding: 40px 0 50px;">
   <div class="container">
     <h2 class="title">How Tuelo Works</h2>

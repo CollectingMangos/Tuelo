@@ -3,13 +3,11 @@ $pageTitle = 'My Profile';
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/../includes/db.php';
 
-// Must be logged in
 requireLogin('/tuelo-main/login.php');
 
 $tab    = $_GET['tab'] ?? 'listings';
 $userId = $currentUser['id'];
 
-//  Fetch user's own listings 
 $myListings = queryDB(
     'SELECT l.*, c.name AS category_name,
             (SELECT image_path FROM listing_images
@@ -21,7 +19,6 @@ $myListings = queryDB(
     [$userId]
 );
 
-//  Fetch user's purchases 
 $myPurchases = queryDB(
     'SELECT t.*, l.title AS listing_title, l.price,
             u.name AS seller_name, u.surname AS seller_surname,
@@ -35,7 +32,6 @@ $myPurchases = queryDB(
     [$userId]
 );
 
-//  Fetch reviews about this user 
 $myReviews = queryDB(
     'SELECT r.*, u.name AS reviewer_name, u.surname AS reviewer_surname,
             u.profile_image AS reviewer_avatar, l.title AS listing_title
@@ -47,7 +43,6 @@ $myReviews = queryDB(
     [$userId]
 );
 
-//  Handle profile image update 
 $updateSuccess = '';
 $updateError   = '';
 
@@ -63,10 +58,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
             'UPDATE users SET name = ?, surname = ?, phone_number = ?, updated_at = NOW() WHERE id = ?',
             [$name, $surname, $phone ?: null, $userId]
         );
-        // Bust session cache so header picks up new name
         unset($_SESSION['user_cache']);
         $updateSuccess = 'Profile updated successfully.';
-        // Refresh user
         $currentUser = getUser();
     }
 }
@@ -74,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_image'])) {
     $file     = $_FILES['profile_image'];
     $allowed  = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-    $maxSize  = 5 * 1024 * 1024; // 5MB
+    $maxSize  = 5 * 1024 * 1024;
 
     if ($file['error'] !== UPLOAD_ERR_OK) {
         $updateError = 'Upload failed. Please try again.';
@@ -83,13 +76,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_image'])) {
     } elseif ($file['size'] > $maxSize) {
         $updateError = 'Image must be under 5MB.';
     } else {
-        // Create avatars folder if it doesn't exist
         $uploadDir = __DIR__ . '/uploads/avatars/';
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0755, true);
         }
 
-        // Delete old avatar if it exists and isn't the default
         $oldAvatar = $currentUser['profile_image'] ?? '';
         if ($oldAvatar && str_contains($oldAvatar, '/uploads/avatars/')) {
             $oldPath = __DIR__ . str_replace('/tuelo-main', '', $oldAvatar);
@@ -98,7 +89,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_image'])) {
             }
         }
 
-        // Save new avatar with unique filename
         $ext      = pathinfo($file['name'], PATHINFO_EXTENSION);
         $filename = 'avatar-' . $userId . '-' . time() . '.' . $ext;
         $savePath = $uploadDir . $filename;
@@ -123,10 +113,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_image'])) {
   <div class="container">
     <div style="display:flex;gap:30px;align-items:flex-start;flex-wrap:wrap;">
 
-      <!--  LEFT SIDEBAR  -->
       <div style="min-width:240px;max-width:260px;flex-shrink:0;">
 
-        <!-- Profile card -->
         <div style="border:1px solid var(--cultured);border-radius:var(--border-radius-md);
                     padding:25px;text-align:center;margin-bottom:20px;">
 
@@ -144,7 +132,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_image'])) {
             <?= htmlspecialchars($currentUser['role_name']) ?>
           </p>
 
-          <!-- Star rating -->
           <div style="display:flex;justify-content:center;align-items:center;gap:3px;margin-bottom:6px;">
             <?php
             $rating = round($currentUser['rating_average'] * 2) / 2;
@@ -167,7 +154,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_image'])) {
           </p>
         </div>
 
-        <!-- Nav tabs -->
         <div style="border:1px solid var(--cultured);border-radius:var(--border-radius-md);overflow:hidden;">
           <?php
           $tabs = [
@@ -201,7 +187,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_image'])) {
           <?php endforeach; ?>
         </div>
 
-        <!-- Sell button (sellers only) -->
         <?php if (hasPermission('create_listing')): ?>
         <a href="/tuelo-main/sell.php"
            style="display:flex;align-items:center;justify-content:center;gap:8px;
@@ -217,7 +202,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_image'])) {
 
       </div>
 
-      <!--  RIGHT CONTENT  -->
       <div style="flex:1;min-width:0;">
 
         <?php if ($updateSuccess): ?>
@@ -227,7 +211,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_image'])) {
           <div class="alert alert-danger" style="margin-bottom:20px;"><?= $updateError ?></div>
         <?php endif; ?>
 
-        <!--  TAB: MY LISTINGS  -->
         <?php if ($tab === 'listings'): ?>
         <h2 style="font-size:var(--fs-3);font-weight:700;color:var(--eerie-black);margin-bottom:20px;">
           My Listings
@@ -292,7 +275,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_image'])) {
           </div>
         <?php endif; ?>
 
-        <!--  TAB: MY PURCHASES  -->
         <?php elseif ($tab === 'purchases'): ?>
         <h2 style="font-size:var(--fs-3);font-weight:700;color:var(--eerie-black);margin-bottom:20px;">
           My Purchases
@@ -343,7 +325,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_image'])) {
           </div>
         <?php endif; ?>
 
-        <!--  TAB: REVIEWS  -->
         <?php elseif ($tab === 'reviews'): ?>
         <h2 style="font-size:var(--fs-3);font-weight:700;color:var(--eerie-black);margin-bottom:20px;">
           Reviews
@@ -391,13 +372,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_image'])) {
           </div>
         <?php endif; ?>
 
-        <!--  TAB: SETTINGS  -->
         <?php elseif ($tab === 'settings'): ?>
         <h2 style="font-size:var(--fs-3);font-weight:700;color:var(--eerie-black);margin-bottom:20px;">
         Settings
         </h2>
 
-        <!-- Avatar upload -->
         <div style="border:1px solid var(--cultured);border-radius:var(--border-radius-md);
                     padding:25px;max-width:480px;margin-bottom:20px;">
         <h3 style="font-size:var(--fs-7);font-weight:600;color:var(--onyx);margin-bottom:16px;">
@@ -432,7 +411,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_image'])) {
         </div>
         </div>
 
-        <!-- Profile details form -->
         <div style="border:1px solid var(--cultured);border-radius:var(--border-radius-md);
                     padding:30px;max-width:480px;">
         <h3 style="font-size:var(--fs-7);font-weight:600;color:var(--onyx);margin-bottom:16px;">
@@ -481,14 +459,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_image'])) {
         </form>
         </div>
 
-        <!-- Avatar preview script -->
         <script>
         function previewAvatar(input) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     document.getElementById('avatarPreview').src = e.target.result;
-                    // Also update the header avatar instantly
                     const headerAvatar = document.querySelector('.tuelo-avatar');
                     if (headerAvatar) headerAvatar.src = e.target.result;
                 };

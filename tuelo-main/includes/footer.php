@@ -1,4 +1,3 @@
-<!-- FOOTER -->
 <footer>
 
   <div class="footer-nav">
@@ -56,7 +55,6 @@
   </div>
 
 </footer>
-<!-- END FOOTER -->
 
 <script src="/tuelo-main/assets/js/main.js"></script>
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>

@@ -18,7 +18,6 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 
 <div class="overlay" data-overlay></div>
 
-<!-- HEADER BANNER -->
 <div class="header-top">
   <div class="container">
 
@@ -41,16 +40,13 @@ $currentPage = basename($_SERVER['PHP_SELF']);
   </div>
 </div>
 
-<!-- HEADER MAIN -->
 <div class="header-main">
   <div class="container">
 
-    <!-- Logo -->
     <a href="/tuelo-main/index.php" class="header-logo">
       <span class="header-logo-text">Tuelo</span>
     </a>
 
-    <!-- Search -->
     <div class="header-search-container">
       <form action="/tuelo-main/listings.php" method="GET">
         <input type="search" name="q" class="search-field"
@@ -62,28 +58,23 @@ $currentPage = basename($_SERVER['PHP_SELF']);
       </form>
     </div>
 
-    <!-- User actions -->
     <div class="header-user-actions">
 
       <?php if ($currentUser): ?>
 
-        <!-- Profile -->
         <a href="/tuelo-main/profile.php" class="action-btn" title="My Profile">
           <ion-icon name="person-outline"></ion-icon>
         </a>
 
-        <!-- Messages -->
         <a href="/tuelo-main/messages.php" class="action-btn" title="Messages">
           <ion-icon name="chatbubble-outline"></ion-icon>
         </a>
 
-        <!-- Transactions -->
         <a href="/tuelo-main/transactions.php" class="action-btn" title="Transactions">
           <ion-icon name="receipt-outline"></ion-icon>
         </a>
 
         <?php if (in_array($currentUser['role_name'], ['admin', 'superuser'])): ?>
-        <!-- Admin panel shortcut -->
         <a href="/tuelo-admin/index.php" class="action-btn" title="Admin Panel">
           <ion-icon name="desktop-outline"></ion-icon>
         </a>
@@ -102,7 +93,6 @@ $currentPage = basename($_SERVER['PHP_SELF']);
   </div>
 </div>
 
-<!-- DESKTOP NAV -->
 <nav class="desktop-navigation-menu">
   <div class="container">
     <ul class="desktop-menu-category-list">
@@ -119,7 +109,6 @@ $currentPage = basename($_SERVER['PHP_SELF']);
            class="menu-title <?= $currentPage === 'listings.php' ? 'active' : '' ?>">
           Buy
         </a>
-        <!-- Category dropdown -->
         <ul class="dropdown-list">
           <li class="dropdown-item"><a href="/tuelo-main/listings.php?category=electronics"><ion-icon name="phone-portrait-outline"></ion-icon> Electronics</a></li>
           <li class="dropdown-item"><a href="/tuelo-main/listings.php?category=clothing-shoes"><ion-icon name="shirt-outline"></ion-icon> Clothing & Shoes</a></li>

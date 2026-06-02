@@ -10,9 +10,8 @@ if (!$id) {
     exit;
 }
 
-//  Fetch listing with seller and category info 
 $listing = singleQueryDB(
-    'SELECT l.*, 
+    'SELECT l.*,
             u.id AS seller_id, u.name AS seller_name, u.surname AS seller_surname,
             u.profile_image AS seller_avatar, u.rating_average AS seller_rating,
             u.created_at AS seller_joined,
@@ -31,19 +30,16 @@ if (!$listing) {
 
 $pageTitle = htmlspecialchars($listing['title']);
 
-//  Fetch all images for this listing 
 $images = queryDB(
     'SELECT * FROM listing_images WHERE listing_id = ? ORDER BY is_main_image DESC',
     [$id]
 );
 
-//  Fetch seller review count 
 $reviewCount = singleQueryDB(
     'SELECT COUNT(*) AS total FROM reviews WHERE reviewee_id = ?',
     [$listing['seller_id']]
 );
 
-//  Fetch related listings (same category, exclude current) 
 $related = queryDB(
     'SELECT l.*, c.name AS category_name,
             (SELECT image_path FROM listing_images
@@ -56,7 +52,6 @@ $related = queryDB(
     [$listing['category_id'], $id]
 );
 
-//  Determine cover image 
 $coverImg = '/tuelo-main/assets/img/no-image.png';
 foreach ($images as $img) {
     if ($img['is_main_image']) {
@@ -69,15 +64,12 @@ if ($coverImg === '/tuelo-main/assets/img/no-image.png' && !empty($images)) {
 }
 ?>
 
-<!--  PRODUCT DETAIL  -->
 <div style="padding:40px 0;">
   <div class="container">
     <div style="display:flex;gap:40px;align-items:flex-start;flex-wrap:wrap;">
 
-      <!--  LEFT: Images  -->
       <div style="flex:1;min-width:300px;max-width:520px;">
 
-        <!-- Main image -->
         <div style="border:1px solid var(--cultured);border-radius:var(--border-radius-md);
                     overflow:hidden;margin-bottom:12px;background:var(--cultured);">
           <img id="mainImage"
@@ -86,7 +78,6 @@ if ($coverImg === '/tuelo-main/assets/img/no-image.png' && !empty($images)) {
                style="width:100%;height:420px;object-fit:cover;display:block;" />
         </div>
 
-        <!-- Thumbnail strip -->
         <?php if (count($images) > 1): ?>
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
           <?php foreach ($images as $img): ?>
@@ -105,10 +96,8 @@ if ($coverImg === '/tuelo-main/assets/img/no-image.png' && !empty($images)) {
 
       </div>
 
-      <!--  RIGHT: Details  -->
       <div style="flex:1;min-width:280px;">
 
-        <!-- Category + condition -->
         <div style="display:flex;gap:8px;margin-bottom:12px;">
           <a href="/tuelo-main/listings.php?category=<?= urlencode($listing['category_slug']) ?>"
              style="font-size:var(--fs-9);font-weight:600;color:var(--tuelo-green);
@@ -123,20 +112,17 @@ if ($coverImg === '/tuelo-main/assets/img/no-image.png' && !empty($images)) {
           </span>
         </div>
 
-        <!-- Title -->
         <h1 style="font-size:var(--fs-2);font-weight:700;color:var(--eerie-black);
                    line-height:1.3;margin-bottom:16px;">
           <?= htmlspecialchars($listing['title']) ?>
         </h1>
 
-        <!-- Price -->
         <div style="margin-bottom:20px;">
           <p style="font-size:2rem;font-weight:800;color:var(--tuelo-green-dark);">
             R <?= number_format($listing['price'], 2) ?>
           </p>
         </div>
 
-        <!-- Location -->
         <?php if ($listing['location']): ?>
         <p style="font-size:var(--fs-8);color:var(--sonic-silver);margin-bottom:16px;
                   display:flex;align-items:center;gap:5px;">
@@ -145,7 +131,6 @@ if ($coverImg === '/tuelo-main/assets/img/no-image.png' && !empty($images)) {
         </p>
         <?php endif; ?>
 
-        <!-- Description -->
         <div style="margin-bottom:24px;">
           <h3 style="font-size:var(--fs-7);font-weight:600;color:var(--onyx);margin-bottom:8px;">
             Description
@@ -155,16 +140,13 @@ if ($coverImg === '/tuelo-main/assets/img/no-image.png' && !empty($images)) {
           </p>
         </div>
 
-        <!-- Date posted -->
         <p style="font-size:var(--fs-9);color:var(--sonic-silver);margin-bottom:24px;">
           Posted <?= date('d M Y', strtotime($listing['created_at'])) ?>
         </p>
 
-        <!-- Action buttons -->
         <div id="buy" style="display:flex;flex-direction:column;gap:10px;margin-bottom:28px;">
 
           <?php if (!$currentUser): ?>
-            <!-- Not logged in -->
             <a href="/tuelo-main/login.php?redirect=<?= urlencode($_SERVER['REQUEST_URI']) ?>"
                style="display:flex;align-items:center;justify-content:center;gap:8px;
                       background:var(--tuelo-green-dark);color:#fff;padding:14px;
@@ -177,7 +159,6 @@ if ($coverImg === '/tuelo-main/assets/img/no-image.png' && !empty($images)) {
             </a>
 
           <?php elseif ($currentUser['id'] === $listing['seller_id']): ?>
-            <!-- Own listing -->
             <div style="background:var(--tuelo-green-light);border:1px solid hsl(152,51%,70%);
                         border-radius:var(--border-radius-sm);padding:14px;text-align:center;">
               <p style="font-size:var(--fs-7);color:var(--tuelo-green-dark);font-weight:500;">
@@ -186,7 +167,6 @@ if ($coverImg === '/tuelo-main/assets/img/no-image.png' && !empty($images)) {
             </div>
 
           <?php else: ?>
-            <!-- Logged in, not own listing -->
             <?php if (hasPermission('purchase_item')): ?>
             <a href="/tuelo-main/checkout.php?listing=<?= $listing['id'] ?>"
                style="display:flex;align-items:center;justify-content:center;gap:8px;
@@ -217,7 +197,6 @@ if ($coverImg === '/tuelo-main/assets/img/no-image.png' && !empty($images)) {
 
         </div>
 
-        <!--  Seller card  -->
         <div style="border:1px solid var(--cultured);border-radius:var(--border-radius-md);padding:20px;">
           <h3 style="font-size:var(--fs-8);font-weight:600;text-transform:uppercase;
                      letter-spacing:0.5px;color:var(--sonic-silver);margin-bottom:15px;">
@@ -233,7 +212,6 @@ if ($coverImg === '/tuelo-main/assets/img/no-image.png' && !empty($images)) {
               <p style="font-weight:600;font-size:var(--fs-6);color:var(--onyx);">
                 <?= htmlspecialchars($listing['seller_name'] . ' ' . $listing['seller_surname']) ?>
               </p>
-              <!-- Star rating -->
               <div style="display:flex;align-items:center;gap:4px;margin:4px 0;">
                 <?php
                 $rating = round($listing['seller_rating'] * 2) / 2;
@@ -262,7 +240,6 @@ if ($coverImg === '/tuelo-main/assets/img/no-image.png' && !empty($images)) {
   </div>
 </div>
 
-<!--  RELATED LISTINGS  -->
 <?php if (!empty($related)): ?>
 <div style="padding:0 0 50px;">
   <div class="container">

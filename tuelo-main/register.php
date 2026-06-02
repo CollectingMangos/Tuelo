@@ -2,10 +2,8 @@
 $pageTitle = 'Create Account';
 require_once __DIR__ . '/includes/header.php';
 
-// Redirect if already logged in
 redirectIfLoggedIn('/tuelo-main/index.php');
 
-// Block direct access, must come from login page or register link
 $referer = $_SERVER['HTTP_REFERER'] ?? '';
 $allowedReferers = [
     '/tuelo-main/login.php',
@@ -21,12 +19,10 @@ foreach ($allowedReferers as $ref) {
     }
 }
 
-// Also allow direct GET access with ?ref=login (from the login page link)
 if (isset($_GET['ref']) && $_GET['ref'] === 'login') {
     $allowed = true;
 }
 
-// Allow POST (form submission)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $allowed = true;
 }
@@ -50,7 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password               = trim($_POST['password']      ?? '');
     $confirmPassword        = trim($_POST['confirm_password'] ?? '');
 
-    // Validation
     if (empty($fields['name']) || empty($fields['surname']) || empty($fields['email']) || empty($password)) {
         $error = 'Please fill in all required fields.';
     } elseif (!filter_var($fields['email'], FILTER_VALIDATE_EMAIL)) {
@@ -62,13 +57,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (!in_array($fields['role'], ['buyer', 'seller'])) {
         $error = 'Please select a valid account type.';
     } else {
-        // Check email not already taken
         $existing = singleQueryDB('SELECT id FROM users WHERE email = ?', [$fields['email']]);
 
         if ($existing) {
             $error = 'An account with that email address already exists. <a href="/tuelo-main/login.php">Log in instead?</a>';
         } else {
-            // Get role id
             $role = singleQueryDB('SELECT id FROM roles WHERE name = ?', [$fields['role']]);
 
             if (!$role) {
@@ -90,7 +83,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 );
 
                 if ($newId) {
-                    // Log them straight in after registering
                     $newUser = singleQueryDB('SELECT * FROM users WHERE id = ?', [$newId]);
                     loginUser($newUser);
                     header('Location: /tuelo-main/index.php?welcome=1');
@@ -117,7 +109,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       <form method="POST" action="/tuelo-main/register.php" id="registerForm">
 
-        <!-- Name row -->
         <div style="display:flex;gap:15px;">
           <div class="form-group" style="flex:1;">
             <label class="form-label" for="name">First name <span style="color:red">*</span></label>
@@ -147,7 +138,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                  value="<?= htmlspecialchars($fields['phone_number']) ?>" />
         </div>
 
-        <!-- Account type -->
         <div class="form-group">
           <label class="form-label">I want to <span style="color:red">*</span></label>
           <div style="display:flex;gap:12px;margin-top:6px;">
@@ -204,7 +194,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </div>
 </div>
 
-<!-- Role selector + password strength styles -->
 <style>
 .role-option {
     display: flex; flex-direction: column; align-items: center;
@@ -218,7 +207,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </style>
 
 <script>
-// Role selector toggle
 document.querySelectorAll('.role-radio').forEach(function(radio) {
     radio.addEventListener('change', function() {
         document.querySelectorAll('.role-option').forEach(function(opt) {
@@ -228,7 +216,6 @@ document.querySelectorAll('.role-radio').forEach(function(radio) {
     });
 });
 
-// Password strength indicator
 document.getElementById('password').addEventListener('input', function() {
     const val = this.value;
     const el  = document.getElementById('pw-strength');
@@ -245,7 +232,6 @@ document.getElementById('password').addEventListener('input', function() {
     }
 });
 
-// Password match indicator
 document.getElementById('confirm_password').addEventListener('input', function() {
     const pw    = document.getElementById('password').value;
     const el    = document.getElementById('pw-match');

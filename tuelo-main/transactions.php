@@ -6,9 +6,8 @@ require_once __DIR__ . '/../includes/db.php';
 requireLogin('/tuelo-main/login.php');
 
 $userId = $currentUser['id'];
-$view   = $_GET['view'] ?? 'buying'; // buying or selling
+$view   = $_GET['view'] ?? 'buying';
 
-//  Transactions as buyer 
 $buying = queryDB(
     'SELECT t.*, l.title AS listing_title,
             u.name AS seller_name, u.surname AS seller_surname,
@@ -23,7 +22,6 @@ $buying = queryDB(
     [$userId]
 );
 
-//  Transactions as seller 
 $selling = queryDB(
     'SELECT t.*, l.title AS listing_title,
             u.name AS buyer_name, u.surname AS buyer_surname,
@@ -38,7 +36,6 @@ $selling = queryDB(
     [$userId]
 );
 
-//  Status colour helper 
 function statusStyle(string $status): string {
     return match($status) {
         'completed' => 'background:var(--tuelo-green-light);color:var(--tuelo-green-dark);',
@@ -50,7 +47,6 @@ function statusStyle(string $status): string {
 }
 ?>
 
-<!-- Page header -->
 <div style="background:var(--tuelo-green-light);padding:25px 0;
             border-bottom:1px solid hsl(152,51%,80%);">
   <div class="container">
@@ -66,7 +62,6 @@ function statusStyle(string $status): string {
 <div style="padding:30px 0 60px;">
   <div class="container">
 
-    <!-- Tab switcher -->
     <div style="display:flex;gap:0;border:1px solid var(--cultured);
                 border-radius:var(--border-radius-sm);overflow:hidden;
                 width:fit-content;margin-bottom:30px;">
@@ -120,10 +115,8 @@ function statusStyle(string $status): string {
 
     <?php else: ?>
 
-      <!-- Transactions table -->
       <div style="border:1px solid var(--cultured);border-radius:var(--border-radius-md);overflow:hidden;">
 
-        <!-- Table header -->
         <div style="display:grid;grid-template-columns:2fr 1.2fr 1fr 1fr 0.8fr;
                     padding:12px 20px;background:var(--cultured);
                     font-size:var(--fs-9);font-weight:600;color:var(--sonic-silver);
@@ -142,7 +135,6 @@ function statusStyle(string $status): string {
              onmouseover="this.style.background='hsl(0,0%,99%)'"
              onmouseout="this.style.background='transparent'">
 
-          <!-- Item -->
           <div style="display:flex;align-items:center;gap:12px;min-width:0;">
             <img src="<?= $tx['cover_img']
                 ? htmlspecialchars($tx['cover_img'])
@@ -155,7 +147,6 @@ function statusStyle(string $status): string {
             </p>
           </div>
 
-          <!-- Buyer/Seller -->
           <div style="display:flex;align-items:center;gap:8px;">
             <img src="<?= ($isSelling ? $tx['buyer_avatar'] : $tx['seller_avatar'])
                     ? htmlspecialchars($isSelling ? $tx['buyer_avatar'] : $tx['seller_avatar'])
@@ -168,17 +159,14 @@ function statusStyle(string $status): string {
             </p>
           </div>
 
-          <!-- Amount -->
           <p style="font-size:var(--fs-7);font-weight:700;color:var(--tuelo-green-dark);">
             R <?= number_format($tx['amount'], 2) ?>
           </p>
 
-          <!-- Date -->
           <p style="font-size:var(--fs-9);color:var(--sonic-silver);">
             <?= date('d M Y', strtotime($tx['created_at'])) ?>
           </p>
 
-          <!-- Status badge -->
           <span style="font-size:var(--fs-10);padding:3px 10px;border-radius:20px;
                        font-weight:600;text-transform:capitalize;width:fit-content;
                        <?= statusStyle($tx['status']) ?>">
@@ -190,7 +178,6 @@ function statusStyle(string $status): string {
 
       </div>
 
-      <!-- Summary row -->
       <div style="display:flex;justify-content:flex-end;margin-top:16px;">
         <p style="font-size:var(--fs-8);color:var(--sonic-silver);">
           Total <?= $isSelling ? 'earned' : 'spent' ?>:

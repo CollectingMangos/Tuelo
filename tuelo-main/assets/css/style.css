@@ -1,15 +1,12 @@
-/*  Google Font  */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
 :root {
-  /* Tuelo brand */
   --tuelo-green:        hsl(152, 51%, 52%);
   --tuelo-green-dark:   hsl(152, 75%, 26%);
   --tuelo-green-light:  hsl(152, 51%, 94%);
   --tuelo-gold:         hsl(29, 90%, 55%);
   --tuelo-gold-dark:    hsl(29, 90%, 40%);
 
-  /* Neutrals (kept from template) */
   --spanish-gray: hsl(0, 0%, 60%);
   --sonic-silver: hsl(0, 0%, 47%);
   --eerie-black:  hsl(0, 0%, 13%);
@@ -20,7 +17,6 @@
   --sandy-brown:  hsl(29, 90%, 65%);
   --bittersweet:  hsl(0, 100%, 70%);
 
-  /* Typography scale */
   --fs-1: 1.563rem;
   --fs-2: 1.375rem;
   --fs-3: 1.25rem;
@@ -44,7 +40,6 @@
   --transition-timing: 0.2s ease;
 }
 
-/*  Reset  */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 a { text-decoration: none; }
 li { list-style: none; }
@@ -56,13 +51,11 @@ input { display: block; width: 100%; font: inherit; }
 input::placeholder { font: inherit; }
 body { background: var(--white); }
 
-/*  Scrollbar  */
 body::-webkit-scrollbar { width: 15px; }
 body::-webkit-scrollbar-track { background: var(--white); border-left: 1px solid var(--cultured); }
 body::-webkit-scrollbar-thumb { background: hsl(0,0%,80%); border: 3px solid var(--white); border-radius: 10px; }
 body::-webkit-scrollbar-thumb:hover { background: hsl(0,0%,70%); }
 
-/*  Utilities  */
 .container { padding: 0 15px; max-width: 1200px; margin: auto; }
 
 .has-scrollbar { padding-bottom: 5px; }
@@ -82,7 +75,6 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0,0%,70%); }
   margin-bottom: 30px;
 }
 
-/* Overlay */
 .overlay {
   position: fixed; top: 0; left: 0;
   width: 100%; height: 100vh;
@@ -92,7 +84,6 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0,0%,70%); }
 }
 .overlay.active { opacity: 1; pointer-events: all; }
 
-/* Top bar */
 .header-top {
   background: var(--tuelo-green-dark);
   padding: 8px 0;
@@ -128,7 +119,6 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0,0%,70%); }
 .header-top-actions select:hover { color: var(--white); }
 .header-top-actions select option { color: var(--eerie-black); background: var(--white); }
 
-/* Main header */
 .header-main {
   background: var(--white);
   padding: 20px 0;
@@ -173,7 +163,6 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0,0%,70%); }
 }
 .search-btn:hover { background: var(--tuelo-green); }
 
-/* Header user actions */
 .header-user-actions {
   display: flex; align-items: center; gap: 15px;
 }
@@ -197,7 +186,6 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0,0%,70%); }
   overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
 }
 
-/* Desktop nav */
 .desktop-navigation-menu {
   background: var(--white);
   border-bottom: 1px solid var(--cultured);
@@ -232,7 +220,6 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0,0%,70%); }
 .desktop-menu-category-list .menu-category > .menu-title.active { color: var(--tuelo-green); }
 .desktop-menu-category-list .menu-category > .menu-title.active::after { transform: scaleX(1); }
 
-/* Category dropdown */
 .dropdown-list {
   position: absolute; top: 100%; left: 0;
   min-width: 200px; background: var(--white);
@@ -256,7 +243,6 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0,0%,70%); }
 }
 .dropdown-list .dropdown-item a:hover { color: var(--tuelo-green); background: var(--tuelo-green-light); }
 
-/* BANNER / HERO SLIDER */
 .banner { margin: 25px 0; }
 .slider-container {
   display: flex; align-items: center; gap: 10px;
@@ -304,9 +290,6 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0,0%,70%); }
 }
 .banner-btn:hover { background: var(--tuelo-gold); }
 
-/*   
-   CATEGORY STRIP
-      */
 .category { margin-bottom: 30px; }
 .category-item-container {
   display: flex; align-items: stretch; gap: 15px;
@@ -338,7 +321,6 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0,0%,70%); }
   font-weight: var(--weight-500); text-transform: capitalize;
 }
 
-/* PRODUCT CONTAINER (sidebar + product box) */
 .product-container .container {
   display: flex; align-items: flex-start;
   gap: 30px; margin-bottom: 40px;
@@ -381,7 +363,6 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0,0%,70%); }
 .sidebar-accordion-menu .add-icon,
 .sidebar-accordion-menu.active .remove-icon { display: block; }
 
-/* Sidebar best sellers */
 .sidebar .showcase-heading {
   font-size: var(--fs-6); font-weight: var(--weight-600);
   color: var(--onyx); text-transform: uppercase;
@@ -402,7 +383,6 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0,0%,70%); }
 
 .product-box { flex: 1; min-width: 0; }
 
-/* PRODUCT GRID (new listings) */
 .product-main { margin-bottom: 40px; }
 .product-grid {
   display: grid;
@@ -460,7 +440,6 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0,0%,70%); }
 .product-grid .seller-name { font-size: var(--fs-9); color: var(--sonic-silver); }
 .product-grid del { color: var(--sonic-silver); }
 
-/* SERVICE STRIP */
 .service-container {
   display: flex; justify-content: center;
   align-items: center; flex-wrap: wrap;
@@ -480,7 +459,6 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0,0%,70%); }
 .service-title { color: var(--eerie-black); font-size: var(--fs-7); font-weight: var(--weight-600); text-transform: capitalize; }
 .service-desc { color: var(--sonic-silver); font-size: var(--fs-9); }
 
-/* FOOTER */
 footer { background: var(--eerie-black); padding: 50px 0 0; }
 
 .footer-nav {
@@ -525,7 +503,6 @@ footer { background: var(--eerie-black); padding: 50px 0 0; }
 }
 .copyright a { display: inline; color: var(--tuelo-green); }
 
-/* FORMS (login, register, sell) */
 .form-page { padding: 50px 0; }
 .form-card {
   max-width: 480px; margin: auto;
@@ -571,7 +548,6 @@ footer { background: var(--eerie-black); padding: 50px 0 0; }
 .form-footer-text a { display: inline; color: var(--tuelo-green); font-weight: var(--weight-500); }
 .form-footer-text a:hover { color: var(--tuelo-green-dark); }
 
-/* Alert messages */
 .alert { padding: 12px 16px; border-radius: var(--border-radius-sm); margin-bottom: 18px; font-size: var(--fs-8); }
 .alert-success { background: var(--tuelo-green-light); color: var(--tuelo-green-dark); border: 1px solid hsl(152,51%,70%); }
 .alert-danger { background: hsl(0,100%,95%); color: hsl(0,60%,45%); border: 1px solid hsl(0,100%,80%); }

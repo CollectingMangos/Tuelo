@@ -2,7 +2,6 @@
 $pageTitle = 'Login';
 require_once __DIR__ . '/includes/header.php';
 
-// Redirect if already logged in
 redirectIfLoggedIn('/tuelo-main/index.php');
 
 $error = '';
@@ -31,10 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } elseif (!password_verify($password, $user['password'])) {
             $error = 'Incorrect password. Please try again.';
         } else {
-            // All good — log them in
             loginUser($user);
 
-            // Redirect admins to admin panel, everyone else to homepage
             $redirect = $_GET['redirect'] ?? '';
             if (!empty($redirect)) {
                 header('Location: ' . urldecode($redirect));

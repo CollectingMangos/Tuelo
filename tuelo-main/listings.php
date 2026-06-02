@@ -3,10 +3,8 @@ $pageTitle = 'Browse Listings';
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/../includes/db.php';
 
-//  Fetch all categories for sidebar and filter strip 
 $categories = queryDB('SELECT * FROM categories ORDER BY name ASC');
 
-//  Read filter inputs from URL 
 $search    = trim($_GET['q']        ?? '');
 $catSlug   = trim($_GET['category'] ?? '');
 $condition = trim($_GET['condition'] ?? '');
@@ -15,13 +13,11 @@ $page      = max(1, (int)($_GET['page'] ?? 1));
 $perPage   = 12;
 $offset    = ($page - 1) * $perPage;
 
-//  Resolve category slug to id 
 $activeCat = null;
 if ($catSlug) {
     $activeCat = singleQueryDB('SELECT * FROM categories WHERE slug = ?', [$catSlug]);
 }
 
-//  Build WHERE clause dynamically 
 $where  = ["l.status = 'active'"];
 $params = [];
 
@@ -43,7 +39,6 @@ if ($search) {
 
 $whereSQL = 'WHERE ' . implode(' AND ', $where);
 
-//  Sorting 
 $orderSQL = match($sort) {
     'price_asc'  => 'ORDER BY l.price ASC',
     'price_desc' => 'ORDER BY l.price DESC',
@@ -51,7 +46,6 @@ $orderSQL = match($sort) {
     default      => 'ORDER BY l.created_at DESC',
 };
 
-//  Total count for pagination 
 $totalRow = singleQueryDB(
     "SELECT COUNT(*) AS total
      FROM listings l
@@ -63,7 +57,6 @@ $totalRow = singleQueryDB(
 $total     = (int)($totalRow['total'] ?? 0);
 $totalPages = (int)ceil($total / $perPage);
 
-//  Fetch listings 
 $listings = queryDB(
     "SELECT l.*, u.name AS seller_name, u.profile_image AS seller_avatar,
             c.name AS category_name, c.slug AS category_slug,
@@ -78,7 +71,6 @@ $listings = queryDB(
     $params
 );
 
-//  Helper: build filter URL preserving other params 
 function filterUrl(array $overrides = []): string {
     $params = array_merge([
         'q'         => $_GET['q']        ?? '',
@@ -92,7 +84,6 @@ function filterUrl(array $overrides = []): string {
 }
 ?>
 
-<!--  PAGE HEADER  -->
 <div style="background:var(--tuelo-green-light);padding:25px 0;border-bottom:1px solid hsl(152,51%,80%);">
   <div class="container">
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:15px;">
@@ -112,7 +103,6 @@ function filterUrl(array $overrides = []): string {
         </p>
       </div>
 
-      <!-- Sort dropdown -->
       <form method="GET" action="/tuelo-main/listings.php" id="sortForm">
         <?php if ($search):    ?><input type="hidden" name="q"         value="<?= htmlspecialchars($search) ?>"><?php endif; ?>
         <?php if ($catSlug):   ?><input type="hidden" name="category"  value="<?= htmlspecialchars($catSlug) ?>"><?php endif; ?>
@@ -129,7 +119,6 @@ function filterUrl(array $overrides = []): string {
 
     </div>
 
-    <!-- Active filter tags -->
     <?php if ($catSlug || $condition || $search): ?>
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
       <?php if ($activeCat): ?>
@@ -169,14 +158,11 @@ function filterUrl(array $overrides = []): string {
   </div>
 </div>
 
-<!--  MAIN CONTENT  -->
 <div class="product-container" style="padding-top:30px;">
   <div class="container">
 
-    <!--  SIDEBAR  -->
     <div class="sidebar">
 
-      <!-- Categories -->
       <div class="sidebar-category">
         <div class="sidebar-top">
           <h2 class="sidebar-title">Categories</h2>
@@ -204,7 +190,6 @@ function filterUrl(array $overrides = []): string {
         </ul>
       </div>
 
-      <!-- Condition filter -->
       <div class="sidebar-category">
         <div class="sidebar-top">
           <h2 class="sidebar-title">Condition</h2>
@@ -227,12 +212,10 @@ function filterUrl(array $overrides = []): string {
 
     </div>
 
-    <!--  LISTINGS GRID  -->
     <div class="product-box">
       <div class="product-main">
 
         <?php if (empty($listings)): ?>
-          <!-- Empty state -->
           <div style="text-align:center;padding:80px 0;color:var(--sonic-silver);">
             <ion-icon name="search-outline"
                       style="font-size:70px;color:var(--cultured);display:block;margin:0 auto 20px;">
@@ -313,12 +296,10 @@ function filterUrl(array $overrides = []): string {
             <?php endforeach; ?>
           </div>
 
-          <!--  PAGINATION  -->
           <?php if ($totalPages > 1): ?>
           <div style="display:flex;justify-content:center;align-items:center;
                       gap:6px;margin-top:40px;flex-wrap:wrap;">
 
-            <!-- Previous -->
             <?php if ($page > 1): ?>
             <a href="<?= filterUrl(['page' => $page - 1]) ?>"
                style="display:inline-flex;align-items:center;gap:4px;padding:8px 16px;
@@ -330,7 +311,6 @@ function filterUrl(array $overrides = []): string {
             </a>
             <?php endif; ?>
 
-            <!-- Page numbers -->
             <?php for ($i = max(1, $page - 2); $i <= min($totalPages, $page + 2); $i++): ?>
             <a href="<?= filterUrl(['page' => $i]) ?>"
                style="display:inline-flex;align-items:center;justify-content:center;
@@ -344,7 +324,6 @@ function filterUrl(array $overrides = []): string {
             </a>
             <?php endfor; ?>
 
-            <!-- Next -->
             <?php if ($page < $totalPages): ?>
             <a href="<?= filterUrl(['page' => $page + 1]) ?>"
                style="display:inline-flex;align-items:center;gap:4px;padding:8px 16px;

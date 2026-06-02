@@ -122,7 +122,6 @@ require_once __DIR__ . '/includes/header.php';
       <form method="POST" action="/tuelo-main/sell.php"
             enctype="multipart/form-data" id="sellForm">
 
-        <!-- Title -->
         <div class="form-group">
           <label class="form-label">
             Listing title <span style="color:red">*</span>
@@ -136,7 +135,6 @@ require_once __DIR__ . '/includes/header.php';
           </p>
         </div>
 
-        <!-- Category + Condition row -->
         <div style="display:flex;gap:15px;">
           <div class="form-group" style="flex:1;">
             <label class="form-label">
@@ -165,7 +163,6 @@ require_once __DIR__ . '/includes/header.php';
           </div>
         </div>
 
-        <!-- Description -->
         <div class="form-group">
           <label class="form-label">
             Description <span style="color:red">*</span>
@@ -176,7 +173,6 @@ require_once __DIR__ . '/includes/header.php';
                     style="resize:vertical;"><?= htmlspecialchars($fields['description']) ?></textarea>
         </div>
 
-        <!-- Price + Location row -->
         <div style="display:flex;gap:15px;">
           <div class="form-group" style="flex:1;">
             <label class="form-label">
@@ -197,7 +193,6 @@ require_once __DIR__ . '/includes/header.php';
           </div>
         </div>
 
-        <!-- Images -->
         <div class="form-group">
           <label class="form-label">
             Photos <span style="color:red">*</span>
@@ -231,7 +226,6 @@ require_once __DIR__ . '/includes/header.php';
                style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;"></div>
         </div>
 
-        <!-- Submit -->
         <div style="display:flex;gap:12px;margin-top:10px;">
           <button type="submit" class="btn-submit" style="flex:1;">
             Post Listing

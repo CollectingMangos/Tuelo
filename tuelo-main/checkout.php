@@ -17,7 +17,6 @@ if (!$listingId) {
     exit;
 }
 
-// Fetch listing
 $listing = singleQueryDB(
     'SELECT l.*, u.id AS seller_id, u.name AS seller_name,
             u.surname AS seller_surname, u.profile_image AS seller_avatar,
@@ -36,19 +35,17 @@ if (!$listing) {
     exit;
 }
 
-// Can't buy own listing
 if ($listing['seller_id'] === $currentUser['id']) {
     header('Location: /tuelo-main/product.php?id=' . $listingId);
     exit;
 }
 
-$tueloFee    = round($listing['price'] * 0.05, 2); // 5% platform fee
+$tueloFee    = round($listing['price'] * 0.05, 2);
 $totalAmount = $listing['price'] + $tueloFee;
 $error       = '';
 $success     = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_purchase'])) {
-    // Create transaction
     $transactionId = insertIntoDB(
         'INSERT INTO transactions
             (listing_id, buyer_id, seller_id, amount, tuelo_fee, status, created_at, updated_at)
@@ -63,7 +60,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_purchase'])) 
     );
 
     if ($transactionId) {
-        // Mark listing as sold
         updateDB(
             'UPDATE listings SET status = "sold", updated_at = NOW() WHERE id = ?',
             [$listingId]
@@ -80,7 +76,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_purchase'])) 
     <div style="max-width:600px;margin:auto;">
 
       <?php if ($success): ?>
-        <!--  Success state  -->
         <div style="text-align:center;padding:50px 30px;border:1px solid var(--cultured);
                     border-radius:var(--border-radius-md);">
           <ion-icon name="checkmark-circle"
@@ -117,7 +112,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_purchase'])) 
         </div>
 
       <?php else: ?>
-        <!--  Checkout form  -->
         <h1 style="font-size:var(--fs-2);font-weight:700;color:var(--eerie-black);margin-bottom:6px;">
           Confirm Purchase
         </h1>
@@ -129,7 +123,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_purchase'])) 
           <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
         <?php endif; ?>
 
-        <!-- Listing summary card -->
         <div style="display:flex;gap:16px;border:1px solid var(--cultured);
                     border-radius:var(--border-radius-md);overflow:hidden;margin-bottom:20px;">
           <img src="<?= $listing['cover_img']
@@ -156,7 +149,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_purchase'])) 
           </div>
         </div>
 
-        <!-- Order summary -->
         <div style="border:1px solid var(--cultured);border-radius:var(--border-radius-md);
                     padding:20px;margin-bottom:20px;">
           <h3 style="font-size:var(--fs-7);font-weight:600;color:var(--onyx);margin-bottom:16px;">
@@ -187,7 +179,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_purchase'])) 
           </div>
         </div>
 
-        <!-- Buyer protection notice -->
         <div style="background:var(--tuelo-green-light);border:1px solid hsl(152,51%,70%);
                     border-radius:var(--border-radius-sm);padding:14px;
                     display:flex;gap:12px;align-items:flex-start;margin-bottom:24px;">
@@ -205,7 +196,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_purchase'])) 
           </div>
         </div>
 
-        <!-- Confirm button -->
         <form method="POST" action="/tuelo-main/checkout.php?listing=<?= $listingId ?>">
           <input type="hidden" name="confirm_purchase" value="1" />
           <button type="submit" class="btn-submit"

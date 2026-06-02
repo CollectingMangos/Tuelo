@@ -14,7 +14,6 @@ $userId      = $currentUser['id'];
 $listingId   = (int)($_GET['listing'] ?? 0);
 $sellerId    = (int)($_GET['seller']  ?? 0);
 
-//  Handle sending a message BEFORE any HTML 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_message'])) {
     $receiverId = (int)($_POST['receiver_id'] ?? 0);
     $body       = trim($_POST['body'] ?? '');
@@ -33,13 +32,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_message'])) {
     }
 }
 
-//  Determine active conversation partner 
 $withUserId = (int)($_GET['with'] ?? 0);
 if (!$withUserId && $sellerId) {
     $withUserId = $sellerId;
 }
 
-//  Fetch all conversation threads 
 $threads = queryDB(
     'SELECT
          partner_id,
@@ -60,7 +57,6 @@ $threads = queryDB(
     [$userId, $userId, $userId, $userId]
 );
 
-//  Enrich threads with partner info and last message 
 foreach ($threads as &$thread) {
     $partner = singleQueryDB(
         'SELECT id, name, surname, profile_image FROM users WHERE id = ?',
@@ -80,7 +76,6 @@ foreach ($threads as &$thread) {
 }
 unset($thread);
 
-//  If coming from product page with no existing thread, add placeholder 
 if ($withUserId && !array_filter($threads, fn($t) => $t['partner_id'] == $withUserId)) {
     $partner = singleQueryDB(
         'SELECT id, name, surname, profile_image FROM users WHERE id = ?',
@@ -98,13 +93,11 @@ if ($withUserId && !array_filter($threads, fn($t) => $t['partner_id'] == $withUs
     }
 }
 
-//  Fetch messages in active conversation 
 $activeMessages = [];
 $activePartner  = null;
 $activeListing  = null;
 
 if ($withUserId) {
-    // Mark received messages as read
     updateDB(
         'UPDATE messages SET is_read = 1, read_at = NOW()
          WHERE sender_id = ? AND receiver_id = ? AND is_read = 0',
@@ -132,12 +125,10 @@ if ($withUserId) {
     }
 }
 
-//  Now load HTML 
 $pageTitle = 'Messages';
 require_once __DIR__ . '/includes/header.php';
 ?>
 
-<!-- Page header -->
 <div style="background:var(--tuelo-green-light);padding:20px 0;
             border-bottom:1px solid hsl(152,51%,80%);">
   <div class="container">
@@ -153,7 +144,6 @@ require_once __DIR__ . '/includes/header.php';
                 border-radius:var(--border-radius-md);overflow:hidden;
                 min-height:520px;">
 
-      <!--  THREAD LIST  -->
       <div style="width:300px;flex-shrink:0;border-right:1px solid var(--cultured);
                   overflow-y:auto;">
 
@@ -223,11 +213,9 @@ require_once __DIR__ . '/includes/header.php';
 
       </div>
 
-      <!--  CONVERSATION  -->
       <div style="flex:1;display:flex;flex-direction:column;min-width:0;">
 
         <?php if (!$withUserId || !$activePartner): ?>
-          <!-- No conversation selected -->
           <div style="flex:1;display:flex;flex-direction:column;
                       align-items:center;justify-content:center;
                       color:var(--sonic-silver);padding:40px;">
@@ -244,7 +232,6 @@ require_once __DIR__ . '/includes/header.php';
 
         <?php else: ?>
 
-          <!-- Conversation header -->
           <div style="padding:14px 20px;border-bottom:1px solid var(--cultured);
                       display:flex;align-items:center;gap:12px;">
             <img src="<?= $activePartner['profile_image']
@@ -255,7 +242,6 @@ require_once __DIR__ . '/includes/header.php';
               <?= htmlspecialchars($activePartner['name'] . ' ' . $activePartner['surname']) ?>
             </p>
 
-            <!-- Listing context pill -->
             <?php if ($activeListing): ?>
             <div style="margin-left:auto;background:var(--tuelo-green-light);
                         border:1px solid hsl(152,51%,70%);border-radius:var(--border-radius-sm);
@@ -279,7 +265,6 @@ require_once __DIR__ . '/includes/header.php';
             <?php endif; ?>
           </div>
 
-          <!-- Messages area -->
           <div id="messagesArea"
                style="flex:1;overflow-y:auto;padding:20px;
                       display:flex;flex-direction:column;gap:12px;">
@@ -311,7 +296,6 @@ require_once __DIR__ . '/includes/header.php';
             <?php endif; ?>
           </div>
 
-          <!-- Message input -->
           <div style="padding:14px 20px;border-top:1px solid var(--cultured);">
             <form method="POST"
                   action="/tuelo-main/messages.php?with=<?= $withUserId ?><?= $listingId ? '&listing=' . $listingId : '' ?>"
