@@ -100,7 +100,7 @@ require_once __DIR__ . '/includes/header.php';
     <div class="admin-alert admin-alert-success"><?= htmlspecialchars($success) ?></div>
   <?php endif; ?>
 
-  <div style="display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:flex-start;">
+  <div class="user-edit-layout">
 
     <!-- Edit form -->
     <div class="admin-card">
@@ -110,9 +110,7 @@ require_once __DIR__ . '/includes/header.php';
       <div class="admin-card-body">
         <form method="POST" action="/tuelo-admin/user-edit.php?id=<?= $id ?>">
 
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-            <div class="admin-form-group">
-              <label class="admin-label">First name</label>
+          <div class="form-row-2">
               <input type="text" name="name" class="admin-input"
                      value="<?= htmlspecialchars($user['name']) ?>" required />
             </div>
@@ -139,9 +137,7 @@ require_once __DIR__ . '/includes/header.php';
                    placeholder="071 234 5678" />
           </div>
 
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-            <div class="admin-form-group">
-              <label class="admin-label">Role</label>
+          <div class="form-row-2">
               <select name="role_id" class="admin-input" style="cursor:pointer;"
                       <?= $id === $currentUser['id'] ? 'disabled' : '' ?>>
                 <?php foreach ($roles as $r): ?>

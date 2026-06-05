@@ -76,7 +76,7 @@ require_once __DIR__ . '/includes/header.php';
   <?php endif; ?>
 
   <!-- Roles overview -->
-  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-bottom:28px;">
+  <div class="roles-grid">
     <?php foreach ($roles as $role): ?>
     <div class="admin-card">
       <div class="admin-card-header">

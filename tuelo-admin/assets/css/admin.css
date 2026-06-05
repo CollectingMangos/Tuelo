@@ -359,3 +359,66 @@ img { max-width: 100%; }
   .admin-card-body { padding: 14px; }
   .admin-card-header { padding: 12px 14px; }
 }
+/* =====================================================
+   PAGE-LEVEL RESPONSIVE GRIDS
+   ===================================================== */
+
+/* roles.php – 2-col role cards */
+.roles-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+/* user-edit.php – main form + sidebar */
+.user-edit-layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+/* Shared: 2-col form field row (name/surname, role/status, etc.) */
+.form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* reports.php – 3-col stat row */
+.reports-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+/* reports.php – 2-col category + top sellers */
+.reports-tables-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+/* ≤ 1024px */
+@media (max-width: 1024px) {
+  .user-edit-layout       { grid-template-columns: 1fr 280px; }
+  .reports-stats-grid     { grid-template-columns: repeat(3, 1fr); }
+  .reports-tables-grid    { grid-template-columns: 1fr 1fr; }
+}
+
+/* ≤ 768px */
+@media (max-width: 768px) {
+  .roles-grid             { grid-template-columns: 1fr; }
+  .user-edit-layout       { grid-template-columns: 1fr; }
+  .form-row-2             { grid-template-columns: 1fr; }
+  .reports-stats-grid     { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .reports-tables-grid    { grid-template-columns: 1fr; }
+}
+
+/* ≤ 480px */
+@media (max-width: 480px) {
+  .reports-stats-grid     { grid-template-columns: 1fr 1fr; gap: 10px; }
+}

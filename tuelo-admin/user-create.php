@@ -86,9 +86,7 @@ require_once __DIR__ . '/includes/header.php';
       <div class="admin-card-body">
         <form method="POST" action="/tuelo-admin/user-create.php">
 
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-            <div class="admin-form-group">
-              <label class="admin-label">First name <span style="color:red">*</span></label>
+          <div class="form-row-2">
               <input type="text" name="name" class="admin-input"
                      placeholder="Thabo"
                      value="<?= htmlspecialchars($_POST['name'] ?? '') ?>" required />
@@ -115,9 +113,7 @@ require_once __DIR__ . '/includes/header.php';
                    value="<?= htmlspecialchars($_POST['phone_number'] ?? '') ?>" />
           </div>
 
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-            <div class="admin-form-group">
-              <label class="admin-label">Role <span style="color:red">*</span></label>
+          <div class="form-row-2">
               <select name="role_id" class="admin-input" style="cursor:pointer;" required>
                 <option value="">Select a role</option>
                 <?php foreach ($roles as $r): ?>

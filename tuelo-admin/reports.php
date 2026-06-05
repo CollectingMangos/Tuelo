@@ -78,7 +78,7 @@ require_once __DIR__ . '/includes/header.php';
   </div>
 
   <!-- Revenue stats -->
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;">
+  <div class="reports-stats-grid">
     <div class="admin-stat-card">
       <div class="admin-stat-icon" style="background:#D1FAE5;">
         <ion-icon name="cash-outline" style="color:#059669;"></ion-icon>
@@ -135,7 +135,7 @@ require_once __DIR__ . '/includes/header.php';
     </div>
   </div>
 
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;">
+  <div class="reports-tables-grid">
 
     <!-- Revenue by category -->
     <div class="admin-card">

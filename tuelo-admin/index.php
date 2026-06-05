@@ -78,7 +78,7 @@ require_once __DIR__ . '/includes/header.php';
 
   <!--  SECTION CARDS  -->
   <!-- These are the clickable admin section cards at the top -->
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;">
+  <div class="dash-section-grid">
 
     <!-- Users -->
     <a href="/tuelo-admin/users.php"
@@ -219,7 +219,7 @@ require_once __DIR__ . '/includes/header.php';
   </div>
 
   <!--  PLATFORM STATS ROW  -->
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;">
+  <div class="dash-stats-grid">
 
     <div class="admin-stat-card">
       <div class="admin-stat-icon" style="background:#D1FAE5;">
@@ -264,7 +264,7 @@ require_once __DIR__ . '/includes/header.php';
   </div>
 
   <!--  THREE COLUMN ACTIVITY  -->
-  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-bottom:24px;">
+  <div class="dash-activity-grid">
 
     <!-- Recent Users -->
     <div class="admin-card">
