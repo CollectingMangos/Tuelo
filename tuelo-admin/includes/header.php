@@ -17,8 +17,11 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 
 <div class="admin-layout">
 
+  <!-- Sidebar overlay (mobile) -->
+  <div class="admin-sidebar-overlay" data-sidebar-overlay></div>
+
   <!--  SIDEBAR  -->
-  <aside class="admin-sidebar">
+  <aside class="admin-sidebar" data-admin-nav>
 
     <!-- Logo -->
     <div class="admin-sidebar-logo">
@@ -94,7 +97,10 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 
     <!-- Top bar -->
     <header class="admin-topbar">
-      <div class="admin-topbar-left">
+      <div class="admin-topbar-left" style="display:flex;align-items:center;gap:12px;">
+        <button class="admin-sidebar-toggle" data-sidebar-toggle aria-label="Open navigation menu">
+          <ion-icon name="menu-outline"></ion-icon>
+        </button>
         <h2 class="admin-topbar-title"><?= isset($pageTitle) ? htmlspecialchars($pageTitle) : 'Dashboard' ?></h2>
       </div>
       <div class="admin-topbar-right">

@@ -90,10 +90,20 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 
     </div>
 
+    <button class="mobile-menu-btn" data-mobile-menu-btn aria-label="Open navigation menu">
+      <ion-icon name="menu-outline"></ion-icon>
+    </button>
+
   </div>
 </div>
 
-<nav class="desktop-navigation-menu">
+<nav class="desktop-navigation-menu" data-nav>
+  <div class="mobile-nav-brand">
+    <span class="header-logo-text">Tuelo</span>
+    <button class="mobile-nav-close" data-nav-close aria-label="Close navigation menu">
+      <ion-icon name="close-outline"></ion-icon>
+    </button>
+  </div>
   <div class="container">
     <ul class="desktop-menu-category-list">
 

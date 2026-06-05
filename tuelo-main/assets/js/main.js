@@ -1,5 +1,28 @@
 'use strict';
 
+/* Mobile navigation drawer */
+const mobileMenuBtn = document.querySelector('[data-mobile-menu-btn]');
+const mobileNav     = document.querySelector('[data-nav]');
+const navCloseBtn   = document.querySelector('[data-nav-close]');
+const overlay       = document.querySelector('[data-overlay]');
+
+function openMobileNav() {
+  mobileNav.classList.add('active');
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeMobileNav() {
+  mobileNav.classList.remove('active');
+  overlay.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', openMobileNav);
+if (navCloseBtn)   navCloseBtn.addEventListener('click', closeMobileNav);
+if (overlay)       overlay.addEventListener('click', closeMobileNav);
+
+/* Accordion */
 const accordionBtns = document.querySelectorAll('[data-accordion-btn]');
 const accordions = document.querySelectorAll('[data-accordion]');
 
