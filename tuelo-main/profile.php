@@ -111,9 +111,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_image'])) {
 
 <div style="padding:40px 0 60px;">
   <div class="container">
-    <div style="display:flex;gap:30px;align-items:flex-start;flex-wrap:wrap;">
+    <div class="profile-layout">
 
-      <div style="min-width:240px;max-width:260px;flex-shrink:0;">
+      <div class="profile-sidebar">
 
         <div style="border:1px solid var(--cultured);border-radius:var(--border-radius-md);
                     padding:25px;text-align:center;margin-bottom:20px;">
@@ -202,7 +202,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_image'])) {
 
       </div>
 
-      <div style="flex:1;min-width:0;">
+      <div class="profile-content">
 
         <?php if ($updateSuccess): ?>
           <div class="alert alert-success" style="margin-bottom:20px;"><?= $updateSuccess ?></div>
@@ -231,9 +231,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_image'])) {
         <?php else: ?>
           <div style="display:flex;flex-direction:column;gap:15px;">
             <?php foreach ($myListings as $item): ?>
-            <div style="display:flex;gap:15px;border:1px solid var(--cultured);
-                        border-radius:var(--border-radius-md);overflow:hidden;
-                        transition:var(--transition-timing);"
+            <div class="profile-listing-row"
                  onmouseover="this.style.boxShadow='0 3px 12px hsla(0,0%,0%,0.08)'"
                  onmouseout="this.style.boxShadow='none'">
 

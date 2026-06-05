@@ -140,12 +140,9 @@ require_once __DIR__ . '/includes/header.php';
 
 <div style="padding:25px 0 60px;">
   <div class="container">
-    <div style="display:flex;gap:0;border:1px solid var(--cultured);
-                border-radius:var(--border-radius-md);overflow:hidden;
-                min-height:520px;">
+    <div class="messages-shell<?= ($withUserId && $activePartner) ? ' chat-open' : '' ?>" id="messagesShell">
 
-      <div style="width:300px;flex-shrink:0;border-right:1px solid var(--cultured);
-                  overflow-y:auto;">
+      <div class="messages-threads">
 
         <div style="padding:16px;border-bottom:1px solid var(--cultured);">
           <p style="font-size:var(--fs-8);font-weight:600;color:var(--onyx);
@@ -213,7 +210,12 @@ require_once __DIR__ . '/includes/header.php';
 
       </div>
 
-      <div style="flex:1;display:flex;flex-direction:column;min-width:0;">
+      <div class="messages-chat">
+
+        <button class="messages-back-btn" onclick="document.getElementById('messagesShell').classList.remove('chat-open')">
+          <ion-icon name="arrow-back-outline" style="font-size:18px;"></ion-icon>
+          Back to conversations
+        </button>
 
         <?php if (!$withUserId || !$activePartner): ?>
           <div style="flex:1;display:flex;flex-direction:column;
