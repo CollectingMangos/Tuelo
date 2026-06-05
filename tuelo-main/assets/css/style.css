@@ -711,14 +711,14 @@ img { max-width: 100%; }
   .service-item { min-width: 140px; padding: 12px 10px; }
 }
 
-/* =====================================================
+/* 
    PROFILE PAGE – Mobile fixes
    The layout uses inline flex/grid, so we override
    with named utility classes added in the markup OR
    target the structural wrappers via attribute tricks.
    Since the HTML uses inline styles, we use wrapper
    classes on the page-level divs.
-   ===================================================== */
+    */
 
 /* Profile outer wrapper – stacks sidebar + content */
 .profile-layout {
@@ -782,9 +782,9 @@ img { max-width: 100%; }
   }
 }
 
-/* =====================================================
+/* 
    MESSAGES PAGE – Mobile fixes
-   ===================================================== */
+    */
 
 /* Outer shell */
 .messages-shell {

@@ -359,9 +359,9 @@ img { max-width: 100%; }
   .admin-card-body { padding: 14px; }
   .admin-card-header { padding: 12px 14px; }
 }
-/* =====================================================
+/* 
    PAGE-LEVEL RESPONSIVE GRIDS
-   ===================================================== */
+    */
 
 /* roles.php – 2-col role cards */
 .roles-grid {
